@@ -9,6 +9,7 @@
 
 import re
 import subprocess
+from sparklines import sparklines
 
 VERSION_RGX = re.compile("version\s+\d+", re.IGNORECASE)
 
@@ -41,6 +42,25 @@ def get_quality(cell):
     quality = quality.split()[0].split("/")
     quality = matching_line(cell, "Quality=").split()[0].split("/")
     return str(int(round(float(quality[0]) / float(quality[1]) * 100)))
+
+
+# This is get_quality, but uses sparklines ▁▃▄▆█
+
+def get_signal(cell):
+    squality = int(get_quality(cell))
+    spark = sparklines([1, 2, 3, 4, 5])
+    signal = ''.join(map(str, spark))
+    if squality > 80:
+        return signal
+    elif squality > 60:
+        return signal[:-1]
+    elif squality > 40:
+        return signal[:-2]
+    elif squality > 20:
+        return signal[:-3]
+    else:
+        return signal[:-4]
+
 
 def get_signal_level(cell):
     """ Gets the signal level of a network / cell.
@@ -262,6 +282,9 @@ def print_cells(cells, columns):
             if column == 'Quality':
                 # make print nicer
                 cell[column] = cell[column].rjust(3) + " %"
+            if column == 'Frequency':
+                # make print nicer
+                cell[column] = cell[column].rjust(3) + " GHz"
             cell_properties.append(cell[column])
         table.append(cell_properties)
     print_table(table)
@@ -282,6 +305,7 @@ def get_parsed_cells(iw_data, rules=None):
     rules = rules or {
         "Name": get_name,
         "Quality": get_quality,
+        "Signal": get_signal,
         "Channel": get_channel,
         "Frequency": get_frequency,
         "Encryption": get_encryption,

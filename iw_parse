@@ -12,10 +12,9 @@ def main():
     # in what order. Of course, they must exist as keys in the dict rules.
     columns = [
         "Name",
-        "Address",
-        "Quality",
+        "Frequency",
         "Channel",
-        "Signal Level",
+        "Signal",
         "Encryption"
     ]
 
