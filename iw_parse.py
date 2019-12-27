@@ -9,7 +9,8 @@
 
 import re
 import subprocess
-from sparklines import sparklines
+# from sparklines import sparklines
+from termcolor import colored, cprint
 
 VERSION_RGX = re.compile("version\s+\d+", re.IGNORECASE)
 
@@ -48,18 +49,27 @@ def get_quality(cell):
 
 def get_signal(cell):
     squality = int(get_quality(cell))
-    spark = sparklines([1, 2, 3, 4, 5])
-    signal = ''.join(map(str, spark))
+    # spark = sparklines([1, 2, 3, 4, 5])
+    sig5 = colored('▁▃▄▆█', 'blue')
+    sig4 = colored('▁▃▄▆', 'green')
+    sig3 = colored('▁▃▄', 'yellow')
+    sig2 = colored('▁▃', 'red')
+    sig1 = colored('▁', 'red')
+    # signal = ''.join(map(str, spark))
     if squality > 80:
-        return signal
+        return sig5
     elif squality > 60:
-        return signal[:-1]
+        # return signal[:-1]
+        return sig4
     elif squality > 40:
-        return signal[:-2]
+        # return signal[:-2]
+        return sig3
     elif squality > 20:
-        return signal[:-3]
+        # return signal[:-3]
+        return sig2
     else:
-        return signal[:-4]
+        # return signal[:-4]
+        return sig1
 
 
 def get_signal_level(cell):

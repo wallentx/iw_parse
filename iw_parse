@@ -14,8 +14,8 @@ def main():
         "Name",
         "Frequency",
         "Channel",
-        "Signal",
-        "Encryption"
+        "Encryption",
+        "Signal"
     ]
 
     print_cells(parsed_cells, columns)
